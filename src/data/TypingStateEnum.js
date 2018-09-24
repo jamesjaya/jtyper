@@ -1,0 +1,6 @@
+export default {
+	READY: 'READY',
+	STARTED: 'STARTED',
+	PAUSED: 'PAUSED',
+	FINISHED: 'FINISHED'
+};

@@ -3,6 +3,7 @@ import { ReduceStore } from 'flux/utils';
 import AppActionTypes from './AppActionTypes';
 import Dispatcher from './Dispatcher';
 import Mode from './ModeEnum';
+import TypingState from './TypingStateEnum';
 import TextUtil from '../utils/TextUtil';
 
 class AppStore extends ReduceStore {
@@ -19,6 +20,7 @@ class AppStore extends ReduceStore {
 			text: '',
 			cursorPosition: 0,
 			errorPositions: Immutable.Map(),
+			typingState: TypingState.READY,
 		});
 	}
 
@@ -29,15 +31,20 @@ class AppStore extends ReduceStore {
 					.update('mode', value => Mode.TYPING)
 					.update('charset', value => action.charset)
 					.update('text', value => TextUtil.generateText(action.charset))
-					.update('cursorPosition', value => 0);
+					.update('cursorPosition', value => 0)
+					.update('errorPositions', value => Immutable.Map())
+					.update('typingState', value => TypingState.READY);
 			}
 			case AppActionTypes.OPEN_SETTINGS: {
 				return state.update('mode', value => Mode.SETTINGS);
 			}
 			case AppActionTypes.KEY_PRESS: {
+				if (state.get('typingState') !== TypingState.STARTED) {
+					state = state.update('typingState', value => TypingState.STARTED);
+				}
+
 				if (state.get('text').charAt(state.get('cursorPosition')) !== action.char) {
 					this.beep.play();
-					console.log('here');
 
 					return state
 						.update('errorPositions', errors => {

@@ -17,7 +17,8 @@ class AppContainer extends Component {
 			charset: state.get('charset'),
 			text: state.get('text'),
 			cursorPosition: state.get('cursorPosition'),
-			errorPositions: state.get('errorPositions')
+			errorPositions: state.get('errorPositions'),
+			typingState: state.get('typingState')
 		}
 	}
 

@@ -21,6 +21,7 @@ class App extends Component {
 				text={this.props.text}
 				cursorPosition={this.props.cursorPosition}
 				errorPositions={this.props.errorPositions}
+				typingState={this.props.typingState}
 			/>;
 		}
 	}

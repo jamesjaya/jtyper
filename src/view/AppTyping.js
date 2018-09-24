@@ -2,6 +2,7 @@ import React from 'react';
 import AppActions from '../data/AppActions';
 import { Button } from 'reactstrap';
 import classnames from 'classnames';
+import Timer from './Timer';
 
 class AppTyping extends React.Component {
 	_textBox = React.createRef();
@@ -52,6 +53,7 @@ class AppTyping extends React.Component {
 	render() {
 		return (
 			<div className="jtyper-container d-flex flex-column justify-content-center align-items-center">
+				<Timer state={this.props.typingState} />
 				{this._renderTextBox()}
 				<Button
 					className="primary"
