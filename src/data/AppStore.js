@@ -10,7 +10,6 @@ class AppStore extends ReduceStore {
 	constructor() {
 		super(Dispatcher);
 		this.beep = new Audio('./audio/beep.mp3');
-		console.log('here');
 	}
 
 	getInitialState() {
@@ -20,6 +19,7 @@ class AppStore extends ReduceStore {
 			text: '',
 			cursorPosition: 0,
 			errorPositions: Immutable.Map(),
+			errorCount: 0,
 			typingState: TypingState.READY,
 		});
 	}
@@ -33,6 +33,7 @@ class AppStore extends ReduceStore {
 					.update('text', value => TextUtil.generateText(action.charset))
 					.update('cursorPosition', value => 0)
 					.update('errorPositions', value => Immutable.Map())
+					.update('errorCount', value => 0)
 					.update('typingState', value => TypingState.READY);
 			}
 			case AppActionTypes.OPEN_SETTINGS: {
@@ -45,8 +46,9 @@ class AppStore extends ReduceStore {
 
 				if (state.get('text').charAt(state.get('cursorPosition')) !== action.char) {
 					this.beep.play();
-
+					console.log(state.get('errorCount'));
 					return state
+						.update('errorCount', value => value + 1)
 						.update('errorPositions', errors => {
 							return errors.set(state.get('cursorPosition'), true);
 						});

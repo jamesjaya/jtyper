@@ -53,7 +53,11 @@ class AppTyping extends React.Component {
 	render() {
 		return (
 			<div className="jtyper-container d-flex flex-column justify-content-center align-items-center">
-				<Timer state={this.props.typingState} />
+				<Timer
+					state={this.props.typingState}
+					cursorPosition={this.props.cursorPosition}
+					text={this.props.text}
+					errorCount={this.props.errorCount}/>
 				{this._renderTextBox()}
 				<Button
 					className="primary"
